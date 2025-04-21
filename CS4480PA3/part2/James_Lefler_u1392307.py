@@ -61,7 +61,7 @@ def configure_host_routes():
 
 def set_interface_cost(router, interface, cost):
     """set OSPF cost for a specific interface path"""
-    cmd = f"sudo docker exec -it {router} vtysh -c 'configure terminal' -c 'interface {interface}' -c 'ip ospf cost {cost}' -c 'exit' -c 'write memory'"
+    cmd = f"sudo docker exec -it {router} vtysh -c 'configure terminal' -c 'interface {interface}' -c 'ip ospf cost {cost}' -c 'exit' -c 'write'"
     success, _ = run_command(cmd)
     return success
 
