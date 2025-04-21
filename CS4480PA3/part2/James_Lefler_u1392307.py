@@ -7,7 +7,7 @@ import time
 import sys
 
 def run_command(command, silent=False):
-    """Execute a shell command and optionally print output"""
+    """execute a shell command"""
     try:
         if isinstance(command, list):
             result = subprocess.run(command, check=True, text=True, capture_output=True)
@@ -131,9 +131,9 @@ def main():
     group.add_argument("--host-routes", action="store_true", 
                        help="Configure routes on hosts")
     group.add_argument("--top", action="store_true", 
-                       help="Move traffic to the top path (R1-R2-R3)")
+                       help="Move traffic to the top path")
     group.add_argument("--bottom", action="store_true", 
-                       help="Move traffic to the bottom path (R1-R4-R3)")
+                       help="Move traffic to the bottom path")
     group.add_argument("--toggle", action="store_true", 
                        help="Toggle between top and bottom paths")
     group.add_argument("--setup-all", action="store_true", 
