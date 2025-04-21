@@ -19,9 +19,10 @@ def run_command(command, silent=False):
         return True, result.stdout
     except subprocess.CalledProcessError as e:
         print(f"Error executing command: {command}")
-        print(f"Error message: {e.stderr}")
+        print(f"Return code: {e.returncode}")
+        print(f"STDOUT: {e.stdout}")
+        print(f"STDERR: {e.stderr}")
         return False, e.stderr
-
 def create_topology():
     """makes network topology"""
     print("making topology...")
