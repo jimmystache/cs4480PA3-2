@@ -7,12 +7,19 @@ import time
 import sys
 
 def run_command(command, silent=False):
-    """run a shell command"""
+    """Execute a shell command and optionally print output"""
     try:
-        result = subprocess.run(command, shell=True, check=True, 
-                                text=True, capture_output=True)
+        if isinstance(command, list):
+            result = subprocess.run(command, check=True, text=True, capture_output=True)
+        else:
+            result = subprocess.run(command, shell=True, check=True, text=True, capture_output=True)
+            
+        if not silent and result.stdout:
+            print(result.stdout)
         return True, result.stdout
     except subprocess.CalledProcessError as e:
+        print(f"Error executing command: {command}")
+        print(f"Error message: {e.stderr}")
         return False, e.stderr
 
 def create_topology():
