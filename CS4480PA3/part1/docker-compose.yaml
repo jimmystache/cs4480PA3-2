@@ -1,0 +1,139 @@
+services:
+  r1:
+    container_name: r1
+    build: 
+      context: .
+      dockerfile: Dockerfile-r1
+    stdin_open: true
+    tty: true
+    cap_add:
+      - ALL
+    privileged: true
+    networks:
+      net-r1-r2:
+        ipv4_address: 10.0.10.4
+      net-r1-r4:
+        ipv4_address: 10.0.13.4
+      net-ha-r1:
+        ipv4_address: 10.0.14.4
+
+  r2:
+    container_name: r2
+    build: 
+      context: .
+      dockerfile: Dockerfile-r2
+    stdin_open: true
+    tty: true
+    cap_add:
+      - ALL
+    privileged: true
+    networks:
+      net-r1-r2:
+        ipv4_address: 10.0.10.3
+      net-r2-r3:
+        ipv4_address: 10.0.11.3
+
+  r3:
+    container_name: r3
+    build: 
+      context: .
+      dockerfile: Dockerfile-r3
+    stdin_open: true
+    tty: true
+    cap_add:
+      - ALL
+    privileged: true
+    networks:
+      net-r2-r3:
+        ipv4_address: 10.0.11.4
+      net-r3-r4:
+        ipv4_address: 10.0.12.3
+      net-r3-hb:
+        ipv4_address: 10.0.15.4
+
+  r4:
+    container_name: r4
+    build: 
+      context: .
+      dockerfile: Dockerfile-r4
+    stdin_open: true
+    tty: true
+    cap_add:
+      - ALL
+    privileged: true
+    networks:
+      net-r3-r4:
+        ipv4_address: 10.0.12.4
+      net-r1-r4:
+        ipv4_address: 10.0.13.3
+
+  ha:
+    container_name: ha
+    build: 
+      context: .
+      dockerfile: Dockerfile-h
+    stdin_open: true
+    tty: true
+    cap_add:
+      - ALL
+    privileged: true    
+    networks:
+      net-ha-r1:
+        ipv4_address: 10.0.14.3
+
+  hb:
+    container_name: hb
+    build: 
+      context: .
+      dockerfile: Dockerfile-h
+    stdin_open: true
+    tty: true
+    cap_add:
+      - ALL
+    privileged: true    
+    networks:
+      net-r3-hb:
+        ipv4_address: 10.0.15.3
+
+networks:
+  net-r1-r2:
+    name: net-r1-r2
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.10.0/24
+
+  net-r2-r3:
+    name: net-r2-r3
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.11.0/24
+
+  net-r3-r4:
+    name: net-r3-r4
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.12.0/24
+
+  net-r1-r4:
+    name: net-r1-r4
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.13.0/24
+
+  net-ha-r1:
+    name: net-ha-r1
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.14.0/24
+
+  net-r3-hb:
+    name: net-r3-hb
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.15.0/24
