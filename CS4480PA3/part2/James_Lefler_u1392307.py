@@ -31,8 +31,10 @@ def configure_routers():
     os.chdir(part1_dir)
 
     print("configuring routers...")
+    print("installfrr..")
     run_command("./install-frr.sh")
     time.sleep(3)
+    print("config ospf...")
     run_command("./configure-ospf.sh")
     time.sleep(3)
     print("done!")
