@@ -27,7 +27,7 @@ def create_topology():
     print("making topology...")
     os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../part1"))
 
-    run_command("docker compose up -d")
+    run_command("sudo docker compose up -d")
     time.sleep(5)
     print("done!")
     return True
@@ -60,7 +60,7 @@ def configure_host_routes():
 
 def set_interface_cost(router, interface, cost):
     """set OSPF cost for a specific interface path"""
-    cmd = f"docker exec -it {router} vtysh -c 'configure terminal' -c 'interface {interface}' -c 'ip ospf cost {cost}' -c 'exit' -c 'write memory'"
+    cmd = f"sudo docker exec -it {router} vtysh -c 'configure terminal' -c 'interface {interface}' -c 'ip ospf cost {cost}' -c 'exit' -c 'write memory'"
     success, _ = run_command(cmd)
     return success
 
@@ -98,7 +98,7 @@ def move_traffic_bottom():
 
 def get_current_path():
     """checks which path is used"""
-    worked, output = run_command("docker exec -it ha traceroute -n 10.0.15.3", silent=True)
+    worked, output = run_command("sudo docker exec -it ha traceroute -n 10.0.15.3", silent=True)
     if worked and "10.0.13.3" in output:
         return "bottom"  # R1-R4-R3 path
     else:
