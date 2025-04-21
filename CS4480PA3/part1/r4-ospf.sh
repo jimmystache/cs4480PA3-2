@@ -7,5 +7,5 @@ docker exec -it r4 vtysh -c 'configure terminal' -c 'router ospf' -c 'ospf route
 docker exec -it r4 vtysh -c 'configure terminal' -c 'interface eth0' -c 'ip ospf area 0' -c 'ip ospf cost 20' -c 'exit' -c 'interface eth1' -c 'ip ospf area 0' -c 'ip ospf cost 20' -c 'exit'
 
 # save 
-docker exec -it r4 vtysh -c 'write memory'
+docker exec -it r4 vtysh -c 'write'
 
